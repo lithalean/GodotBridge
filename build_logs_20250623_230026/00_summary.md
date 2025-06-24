@@ -1,0 +1,9 @@
+# GodotBridge ARM64 Build Summary
+**Date**: Mon Jun 23 23:00:26 CDT 2025
+**Directory**: /Users/lithalean/Documents/Developer/3_Build/Github/GodotBridge
+==> Building iOS Archive...
+==> Building macOS Archive...
+==> Locating iOS framework after archive...
+Found iOS framework at: build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework
+Found macOS framework at: build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework
+==> Ready to prepare XCFramework — run prepare_xcframework_v1.sh next.

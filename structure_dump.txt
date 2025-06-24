@@ -1,0 +1,84 @@
+===== TOP LEVEL =====
+total 96
+drwxr-xr-x@ 16 lithalean  staff    512 Jun 23 21:58 .
+drwxr-xr-x@ 13 lithalean  staff    416 Jun 23 15:22 ..
+-rw-r--r--@  1 lithalean  staff  10244 Jun 23 21:58 .DS_Store
+drwxr-xr-x@ 15 lithalean  staff    480 Jun 23 16:48 .git
+drwxr-xr-x@  6 lithalean  staff    192 Jun 23 21:44 GodotBridge.xcodeproj
+-rw-r--r--@  1 lithalean  staff   1702 Jun 23 19:17 GodotBridge_Testing.sh
+drwxr-xr-x@ 10 lithalean  staff    320 Jun 23 18:45 GodotBridge_iOS
+-rw-r--r--@  1 lithalean  staff   1183 Jun 23 20:19 GodotBridge_iOS_target.sh
+drwxr-xr-x@  9 lithalean  staff    288 Jun 23 18:45 GodotBridge_macOS
+-rw-r--r--@  1 lithalean  staff   1193 Jun 23 20:19 GodotBridge_macOS_target.sh
+-rw-r--r--@  1 lithalean  staff  11109 Jun 23 21:51 ReadMe.md
+drwxr-xr-x@  5 lithalean  staff    160 Jun 23 21:45 build
+-rwxr-xr-x@  1 lithalean  staff   3295 Jun 23 19:48 build_arm64_only.sh
+drwxr-xr-x@  8 lithalean  staff    256 Jun 23 21:45 build_logs_20250623_214523
+-rw-r--r--@  1 lithalean  staff   2138 Jun 23 21:51 context.md
+-rw-r--r--@  1 lithalean  staff     22 Jun 23 21:58 structure_dump.txt
+
+===== 2 LEVEL FOLDERS =====
+.
+./.git
+./.git/branches
+./.git/hooks
+./.git/info
+./.git/logs
+./.git/objects
+./.git/refs
+./GodotBridge.xcodeproj
+./GodotBridge.xcodeproj/project.xcworkspace
+./GodotBridge.xcodeproj/xcuserdata
+./GodotBridge_iOS
+./GodotBridge_iOS/GodotBridge_iOS.docc
+./GodotBridge_macOS
+./GodotBridge_macOS/GodotBridge_macOS.docc
+./build
+./build/GodotBridge.xcframework
+./build/GodotBridge_iOS.xcarchive
+./build/GodotBridge_macOS.xcarchive
+./build_logs_20250623_214523
+
+===== BUILD CONTENTS =====
+build/GodotBridge.xcframework/Info.plist
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/GodotBridge_iOS
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/Headers/GodotBridge.h
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/Headers/GodotBridge_iOS.h
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/Info.plist
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/PrivateHeaders/GodotBridge_Private.h
+build/GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/_CodeSignature/CodeResources
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/GodotBridge_macOS
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/Headers/GodotBridge.h
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/Headers/GodotBridge_macOS.h
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/PrivateHeaders/GodotBridge_Private.h
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/Resources/Info.plist
+build/GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Versions/A/_CodeSignature/CodeResources
+build/GodotBridge_iOS.xcarchive/Info.plist
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/GodotBridge_iOS
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/Headers/GodotBridge.h
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/Headers/GodotBridge_iOS.h
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/Info.plist
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/PrivateHeaders/GodotBridge_Private.h
+build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework/_CodeSignature/CodeResources
+build/GodotBridge_iOS.xcarchive/dSYMs/GodotBridge_iOS.framework.dSYM/Contents/Info.plist
+build/GodotBridge_iOS.xcarchive/dSYMs/GodotBridge_iOS.framework.dSYM/Contents/Resources/DWARF/GodotBridge_iOS
+build/GodotBridge_iOS.xcarchive/dSYMs/GodotBridge_iOS.framework.dSYM/Contents/Resources/Relocations/aarch64/GodotBridge_iOS.yml
+build/GodotBridge_macOS.xcarchive/Info.plist
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/GodotBridge_macOS
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/Headers/GodotBridge.h
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/Headers/GodotBridge_macOS.h
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/PrivateHeaders/GodotBridge_Private.h
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/Resources/Info.plist
+build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework/Versions/A/_CodeSignature/CodeResources
+build/GodotBridge_macOS.xcarchive/dSYMs/GodotBridge_macOS.framework.dSYM/Contents/Info.plist
+build/GodotBridge_macOS.xcarchive/dSYMs/GodotBridge_macOS.framework.dSYM/Contents/Resources/DWARF/GodotBridge_macOS
+build/GodotBridge_macOS.xcarchive/dSYMs/GodotBridge_macOS.framework.dSYM/Contents/Resources/Relocations/aarch64/GodotBridge_macOS.yml
+
+===== BUILD LOGS =====
+total 2624
+-rw-r--r--@ 1 lithalean  staff   635B Jun 23 21:45 00_summary.md
+-rw-r--r--@ 1 lithalean  staff   551K Jun 23 21:45 02_ios_build.md
+-rw-r--r--@ 1 lithalean  staff   674K Jun 23 21:45 03_macos_build.md
+-rw-r--r--@ 1 lithalean  staff   135B Jun 23 21:45 04_xcframework.md
+-rw-r--r--@ 1 lithalean  staff   244B Jun 23 21:45 05_verification.md
+-rw-r--r--@ 1 lithalean  staff   483B Jun 23 21:45 99_full_build.log

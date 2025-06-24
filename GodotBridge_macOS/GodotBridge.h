@@ -24,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly) GodotBridge *sharedBridge;
 
 // Instance methods
-- (BOOL)initializeWithMetalLayer:(CAMetalLayer *)metalLayer error:(NSError * _Nullable * _Nullable)error;
-- (BOOL)startWithError:(NSError * _Nullable * _Nullable)error;
+- (BOOL)initializeWithMetalLayer:(CAMetalLayer *)metalLayer error:(NSError **)error;
+- (BOOL)startWithError:(NSError **)error;
 - (void)stop;
 
 // Properties

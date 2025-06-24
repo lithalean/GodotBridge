@@ -1,0 +1,20 @@
+//
+//  GodotBridge_macOS.modulemap
+//  GodotBridge_macOS
+//
+//  Created by Tyler Allen on 6/23/25.
+//
+
+framework module GodotBridge_macOS {
+    umbrella header "GodotBridge.h"
+    
+    export *
+    module * { export * }
+    
+    link "GodotBridge_macOS"
+    
+    explicit module GodotBridge {
+        header "GodotBridge.h"
+        export *
+    }
+}

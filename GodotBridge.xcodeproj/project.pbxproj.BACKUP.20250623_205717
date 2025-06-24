@@ -119,6 +119,7 @@
 				DFD31D722E09754F003EEFCF /* Sources */,
 				DFD31D732E09754F003EEFCF /* Frameworks */,
 				DFD31D742E09754F003EEFCF /* Resources */,
+				DFE669D02E0A3BAA00107119 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -142,6 +143,7 @@
 				DFD31D882E0975B9003EEFCF /* Sources */,
 				DFD31D892E0975B9003EEFCF /* Frameworks */,
 				DFD31D8A2E0975B9003EEFCF /* Resources */,
+				DFE669CF2E0A3B9800107119 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -212,6 +214,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		DFE669CF2E0A3B9800107119 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh\n\"${SRCROOT}/GodotBridge_macOS_target.sh\"\n";
+		};
+		DFE669D02E0A3BAA00107119 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh\n\"${SRCROOT}/GodotBridge_iOS_target.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */

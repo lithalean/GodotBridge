@@ -1,0 +1,5 @@
+framework module GodotBridge {
+    umbrella header "GodotBridge.h"
+    export *
+    module * { export * }
+}

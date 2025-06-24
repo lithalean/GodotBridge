@@ -1,10 +1,12 @@
-# GodotBridge XCFramework
+# GodotBridge XCFramework (ARM64 ONLY)
 
-A clean, multi-platform Objective-C++ bridge for integrating Godot Engine with iOS and macOS applications via Swift.
+A modern, ARM64-exclusive Objective-C++ bridge for integrating Godot Engine with iOS and macOS applications on Apple Silicon.
 
 ## Overview
 
-GodotBridge provides a unified interface for embedding Godot Engine into native iOS and macOS applications. The bridge handles platform-specific initialization, Metal rendering setup, and bidirectional communication between Swift/Objective-C and Godot's C++ runtime.
+GodotBridge provides a unified interface for embedding Godot Engine into native iOS and macOS applications. Built exclusively for Apple Silicon (ARM64) - no Intel support, no universal binaries, no legacy code.
+
+**This is a 2025 project for 2025 hardware.**
 
 ## Architecture Design
 
@@ -31,17 +33,31 @@ The primary driver for the XCFramework approach was resolving complex iOS compil
 - **Module System**: Proper Swift module support with clean import statements
 - **Version Control**: Framework versioning allows for controlled updates
 
-#### 4. **Multi-Platform Support**
+#### 4. **ARM64-Only Platform Support**
 ```
 GodotBridge.xcframework/
-├── ios-arm64/                    # iOS devices
-├── ios-arm64-simulator/          # iOS simulator (if needed)
-└── macos-arm64_x86_64/          # macOS universal binary
+├── ios-arm64/           # iOS devices (A12 Bionic and newer)
+└── macos-arm64/         # Apple Silicon Macs (M1/M2/M3/M4)
 ```
 
-Each platform gets optimized binaries without cross-compilation issues.
+**NO UNIVERSAL BINARIES. NO INTEL SUPPORT. ARM64 ONLY.**
 
 ## Framework Structure
+
+## Phase 2 Build Status (as of June 23, 2025)
+
+✅ macOS Archive (ARM64) → Success
+✅ iOS Archive (ARM64) → Success
+✅ XCFramework (ARM64-only) → Success
+✅ Modulemaps (macOS + iOS) → Integrated
+✅ No Intel / No x86 slices → Verified
+
+**Pending Next Tests:**
+- Godot Runtime integration (Phase 2.5)
+- App load tests
+- CI automation
+
+For full Phase 2 build history — see: [context.md](context.md)
 
 ### Public Interface
 ```objc
@@ -63,28 +79,36 @@ Each platform gets optimized binaries without cross-compilation issues.
 @end
 ```
 
-### Internal Architecture
+### Internal Architecture (ARM64 Native)
 ```
 ┌─────────────────────┐    ┌─────────────────────┐    ┌─────────────────────┐
-│      Swift App      │ ←→ │  GodotBridge.xcf    │ ←→ │  libgodot.xcf       │
+│  Swift App (ARM64)  │ ←→ │ GodotBridge (ARM64) │ ←→ │ libgodot (ARM64)    │
 │                     │    │                     │    │                     │
-│ • UI Logic          │    │ • Public ObjC API   │    │ • Godot C++ Runtime │
-│ • Game Controller   │    │ • Metal Setup       │    │ • Rendering Engine  │
-│ • State Management  │    │ • Platform Handling │    │ • Scene Management  │
+│ • SwiftUI           │    │ • Public ObjC API   │    │ • Godot C++ Runtime │
+│ • Metal 3           │    │ • Metal Setup       │    │ • Rendering Engine  │
+│ • ProMotion Ready   │    │ • ARM64 Optimized   │    │ • Apple Silicon GPU │
 └─────────────────────┘    └─────────────────────┘    └─────────────────────┘
 ```
 
 ## Usage
 
-### 1. Swift Integration
+### 1. Swift Integration (Apple Silicon Optimized)
 ```swift
 import Foundation
+import Metal
+
+#if os(iOS)
+import GodotBridge_iOS    // ARM64 iOS (A12+)
+#elseif os(macOS)
+import GodotBridge_macOS  // ARM64 macOS (M1+)
+#endif
 
 class GameEngine {
     private let bridge = GodotBridge.sharedBridge()
     
     func initialize() throws {
         let metalLayer = CAMetalLayer()
+        // Apple Silicon GPU (M1/M2/M3/M4 or A12+)
         metalLayer.device = MTLCreateSystemDefaultDevice()
         
         var error: NSError?
@@ -106,16 +130,13 @@ class GameEngine {
 }
 ```
 
-### 2. Bridging Header Setup
-```objc
-//
-//  YourApp-Bridging-Header.h
-//
-
-#if TARGET_OS_IOS
-#import <GodotBridge_iOS/GodotBridge_iOS.h>
-#elif TARGET_OS_OSX
-#import <GodotBridge_macOS/GodotBridge_macOS.h>
+### 2. Framework Import Pattern
+```swift
+// Modern ARM64-only import
+#if os(iOS)
+import GodotBridge_iOS    // ARM64 iPhone/iPad
+#elif os(macOS)
+import GodotBridge_macOS  // ARM64 Apple Silicon Macs
 #endif
 ```
 
@@ -123,61 +144,118 @@ class GameEngine {
 1. **Add Framework**: Drag `GodotBridge.xcframework` to your project
 2. **Link Binary**: Add to "Link Binary With Libraries"
 3. **Embed Framework**: Add to "Embed Frameworks"
-4. **Configure Bridging Header**: Set up imports as shown above
+4. **Verify ARM64**: Check that framework contains ONLY ARM64 slices
 
-## Build Process
+## Build Process (ARM64 ONLY)
 
-### Framework Build
+### Complete Build Script (build_arm64_only.sh)
 ```bash
-# iOS Framework
+#!/bin/bash
+
+echo "🚀 Building ARM64-ONLY XCFramework for Apple Silicon"
+
+# Clean previous builds
+rm -rf build/
+rm -rf GodotBridge.xcframework
+
+# Build iOS - ARM64 ONLY
+echo "📱 Building iOS (ARM64 only)..."
 xcodebuild archive \
   -project GodotBridge.xcodeproj \
   -scheme "GodotBridge_iOS" \
   -destination "generic/platform=iOS" \
-  -archivePath "build/ios.xcarchive" \
+  -archivePath "build/GodotBridge_iOS.xcarchive" \
   SKIP_INSTALL=NO \
-  BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+  BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+  DEFINES_MODULE=NO \
+  ARCHS=arm64 \
+  VALID_ARCHS=arm64
 
-# macOS Framework  
+# Build macOS - ARM64 ONLY
+echo "💻 Building macOS (Apple Silicon ONLY)..."
 xcodebuild archive \
   -project GodotBridge.xcodeproj \
   -scheme "GodotBridge_macOS" \
   -destination "generic/platform=macOS" \
-  -archivePath "build/macos.xcarchive" \
+  -archivePath "build/GodotBridge_macOS.xcarchive" \
   SKIP_INSTALL=NO \
-  BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+  BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+  DEFINES_MODULE=NO \
+  ARCHS=arm64 \
+  VALID_ARCHS=arm64 \
+  EXCLUDED_ARCHS=x86_64
 
-# Create XCFramework
+# Create XCFramework - ARM64 ONLY
 xcodebuild -create-xcframework \
-  -framework "build/ios.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework" \
-  -framework "build/macos.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework" \
+  -framework "build/GodotBridge_iOS.xcarchive/Products/Library/Frameworks/GodotBridge_iOS.framework" \
+  -framework "build/GodotBridge_macOS.xcarchive/Products/Library/Frameworks/GodotBridge_macOS.framework" \
   -output "GodotBridge.xcframework"
+
+# Add module maps (required for DEFINES_MODULE=NO)
+# iOS
+mkdir -p GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/Modules
+cat > GodotBridge.xcframework/ios-arm64/GodotBridge_iOS.framework/Modules/module.modulemap << 'EOF'
+framework module GodotBridge_iOS {
+    umbrella header "GodotBridge.h"
+    export *
+    module * { export * }
+}
+EOF
+
+# macOS
+mkdir -p GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Modules
+cat > GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/Modules/module.modulemap << 'EOF'
+framework module GodotBridge_macOS {
+    umbrella header "GodotBridge.h"
+    export *
+    module * { export * }
+}
+EOF
+
+echo "✅ ARM64-ONLY XCFramework created!"
 ```
 
-### Key Build Considerations
-- **BUILD_LIBRARY_FOR_DISTRIBUTION=YES**: Ensures compatibility across Xcode versions
-- **SKIP_INSTALL=NO**: Required for proper framework archiving
-- **Module Definition**: Framework provides proper Swift module support
+### Key Build Flags (ARM64 Enforcement)
+- **ARCHS=arm64**: Build ONLY for ARM64
+- **VALID_ARCHS=arm64**: Accept ONLY ARM64
+- **EXCLUDED_ARCHS=x86_64**: Explicitly exclude Intel
+- **DEFINES_MODULE=NO**: Avoid VerifyModule issues, add module maps manually
+
+## Module Map Solution
+
+Due to C++ complexity, we use `DEFINES_MODULE=NO` and manually add module maps:
+
+```modulemap
+framework module GodotBridge_iOS {
+    umbrella header "GodotBridge.h"
+    export *
+    module * { export * }
+}
+```
+
+Module maps are placed at:
+- `ios-arm64/GodotBridge_iOS.framework/Modules/module.modulemap`
+- `macos-arm64/GodotBridge_macOS.framework/Modules/module.modulemap`
 
 ## Design Decisions
 
-### Why Not Direct Source Integration?
-1. **Compilation Complexity**: Godot's C++ codebase is complex and doesn't integrate well with iOS build systems
-2. **Symbol Conflicts**: Direct inclusion often causes linker errors and symbol conflicts
-3. **Build Time**: Framework pre-compilation reduces app build times
-4. **Maintenance**: Cleaner separation makes updates and debugging easier
+### Why ARM64 Only?
+1. **It's 2025**: Apple Silicon has been available for 5 years
+2. **Performance**: Native ARM64 performance without translation layers
+3. **Simplicity**: No fat binaries, no architecture checks
+4. **Future-Proof**: Apple's direction is clear - ARM64 forever
 
-### Platform-Specific Considerations
+### Platform Requirements
 
 #### iOS
-- **Metal Integration**: Direct CAMetalLayer setup for optimal rendering performance
-- **Lifecycle Management**: Proper handling of iOS app lifecycle (background/foreground)
-- **Memory Management**: ARC-compatible reference handling
+- **Minimum**: A12 Bionic (iPhone XS, 2018)
+- **Recommended**: A15 Bionic or newer
+- **Features**: Neural Engine, ProMotion support
 
 #### macOS
-- **Display Link**: Native macOS display synchronization
-- **Window Management**: Integration with NSWindow and NSView hierarchies
-- **Input Handling**: macOS-specific keyboard and mouse input
+- **Minimum**: M1 (2020)
+- **Recommended**: M2 or newer
+- **Features**: Unified memory, Metal 3
 
 ### Error Handling Strategy
 ```objc
@@ -194,82 +272,105 @@ func operation() throws {
 }
 ```
 
+## Verification
+
+### Verify ARM64-Only Build
+```bash
+# Check that framework is ARM64 only
+lipo -info GodotBridge.xcframework/macos-arm64/GodotBridge_macOS.framework/GodotBridge_macOS
+# Output: "Non-fat file: ... is architecture: arm64"
+
+# Check framework structure
+ls GodotBridge.xcframework/
+# Output: Info.plist  ios-arm64  macos-arm64
+# NOT: macos-arm64_x86_64 (that's a universal binary!)
+```
+
+## Performance Considerations
+
+### Metal 3 Optimization
+- **Direct Layer Access**: Optimized for Apple Silicon GPU architecture
+- **ProMotion Support**: 120Hz rendering on supported displays
+- **Unified Memory**: Leverages Apple's unified memory architecture
+
+### Threading
+- **Main Thread**: SwiftUI and UI operations
+- **Render Thread**: Metal 3 optimized rendering
+- **Game Thread**: Godot game logic
+
 ## Troubleshooting
 
 ### Common Issues
 
-#### 1. Framework Not Found
+#### 1. Module Not Found
 ```
-Error: 'GodotBridge_iOS/GodotBridge_iOS.h' file not found
+Error: No such module 'GodotBridge_iOS'
 ```
-**Solution**: Ensure framework is added to both "Link Binary With Libraries" and "Embed Frameworks"
+**Solution**: Ensure module maps are properly added after building with `DEFINES_MODULE=NO`
 
-#### 2. Module Verification Failures
+#### 2. Wrong Architecture
 ```
-Error: VerifyModule failed
+Error: Building for iOS Simulator, but linking in dylib built for iOS
 ```
-**Solution**: Build framework with `DEFINES_MODULE=NO` if needed, or fix header imports
+**Solution**: This framework is ARM64 only. Use physical devices or Apple Silicon Mac
 
-#### 3. Swift Can't See Bridge
-```
-Error: Type 'GodotBridge' has no member 'sharedBridge'
-```
-**Solution**: Verify bridging header is correctly configured and framework is embedded
-
-### Debug Steps
-1. **Check Framework Structure**: `find GodotBridge.xcframework -name "*.h"`
-2. **Verify Linking**: Check Build Phases for proper framework inclusion
-3. **Clean Build**: Remove derived data and rebuild
-4. **Module Map**: Verify `module.modulemap` is properly generated
-
-## Performance Considerations
-
-### Metal Rendering
-- **Direct Layer Access**: Framework provides direct access to Godot's Metal layer
-- **Frame Synchronization**: Proper display link setup for smooth rendering
-- **Memory Management**: Efficient handling of Metal resources
-
-### Threading
-- **Main Thread**: UI operations and Swift interface on main thread
-- **Godot Thread**: Engine operations on dedicated thread
-- **Synchronization**: Proper dispatch queue management for cross-thread communication
-
-## Future Improvements
-
-### Planned Features
-- **Swift Package Manager**: SPM support for easier distribution
-- **Communication Layer**: Enhanced bidirectional messaging system
-- **Debug Tools**: Built-in debugging and profiling capabilities
-- **Asset Pipeline**: Streamlined asset loading and management
-
-### Platform Expansion
-- **iOS Simulator**: Dedicated simulator support
-- **tvOS**: Apple TV support
-- **watchOS**: Apple Watch integration (limited scope)
+#### 3. Universal Binary Created
+If you see `macos-arm64_x86_64` in your framework:
+**Solution**: Rebuild using the `build_arm64_only.sh` script with proper exclusion flags
 
 ## Contributing
 
-### Development Setup
-1. Clone the repository
-2. Open `GodotBridge.xcodeproj`
-3. Configure libgodot.xcframework dependency
-4. Build and test on both platforms
+### Requirements
+- **Hardware**: Apple Silicon Mac (M1 or newer)
+- **Xcode**: 15.0+ on Apple Silicon
+- **Testing**: Physical iOS devices (A12+) or Apple Silicon Macs only
 
-### Testing
-- **Unit Tests**: Framework functionality testing
-- **Integration Tests**: Full app integration validation
-- **Performance Tests**: Metal rendering and threading performance
+### No Intel Support
+- PRs adding x86_64 support will be rejected
+- Testing on Intel Macs is not supported
+- Rosetta testing is discouraged
 
 ## License
 
-[Your License Here]
+MIT License - See [LICENSE](LICENSE) for details.
 
 ## Dependencies
 
-- **libgodot.xcframework**: Godot Engine runtime
-- **Metal Framework**: iOS/macOS rendering
-- **Foundation**: Core Objective-C/Swift interoperability
+- **libgodot.xcframework**: Godot Engine runtime (ARM64 only)
+- **Metal Framework**: Apple Silicon GPU rendering
+- **Foundation**: Core framework support
 
 ---
 
-**Note**: This framework design prioritizes stability and maintainability over convenience. The additional complexity of the XCFramework approach pays dividends in reduced compilation issues, better platform support, and cleaner project organization.
+**This is an ARM64-only framework for Apple Silicon devices. No Intel support. No universal binaries. Pure ARM64 performance for modern Apple hardware.**
+
+## Phase 2 Accomplishments (2025-06-23)
+
+✅ Created a clean 2-step build process:
+- `build_arm64_only.sh`: builds iOS + macOS archives
+- `prepare_xcframework.sh`: creates XCFramework + injects modulemap
+
+✅ Resolved missing Modules/module.modulemap
+✅ Confirmed correct slice structure:
+  - iOS ARM64
+  - macOS ARM64
+
+✅ Confirmed binaries present and correct:
+  - iOS: Non-fat file, architecture: arm64
+  - macOS: Non-fat file, architecture: arm64
+
+✅ Confirmed modulemap present in both slices
+✅ Verified NativeBridge now sees `GodotBridge.xcframework`
+
+### Roadblocks overcome:
+- Xcode’s `BUILD_LIBRARY_FOR_DISTRIBUTION` and `DEFINES_MODULE` do not auto-generate modulemap for Obj-C framework
+- Manual `prepare_xcframework.sh` created to handle this properly
+- Fixed phase order (previous Run Script phase too late to inject Modules)
+- Fixed accidental skipped XCFramework step (restored in correct prep script)
+
+### Current state:
+**XCFramework is clean and correct — ready for NativeBridge integration.**
+
+### Next steps:
+- Validate import in NativeBridge
+- If successful, Phase 2 complete and ready to push to GitHub

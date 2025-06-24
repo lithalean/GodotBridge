@@ -1,0 +1,24 @@
+//
+//  GodotBridge_iOS.modulemap
+//  GodotBridge_iOS
+//
+//  Created by Tyler Allen on 6/23/25.
+//
+
+framework module GodotBridge_iOS {
+    umbrella header "GodotBridge.h"
+    
+    export *
+    module * { export * }
+    
+    // If you have other public headers, list them:
+    // header "SomeOtherPublicHeader.h"
+    
+    link "GodotBridge_iOS"
+    
+    // Explicitly declare the framework name
+    explicit module GodotBridge {
+        header "GodotBridge.h"
+        export *
+    }
+}
